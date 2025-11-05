@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import BackBtn from './BackBtn.jsx';
+import './css/TodoList.css';
+import './css/BackBtn.css';
 
-export default function TodoList({ goBack }) {
+export default function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
@@ -30,8 +31,12 @@ export default function TodoList({ goBack }) {
     setEditingIndex(index);
   };
 
+  const goBack = () => {
+    window.history.back();
+  };
+
   return (
-    <div style={{ maxWidth: '500px', margin: 'auto', textAlign: 'center' }}>
+    <div className="todo-container">
       <h2>Todo List 📝</h2>
 
       <input
@@ -39,26 +44,26 @@ export default function TodoList({ goBack }) {
         value={task}
         placeholder="Enter task name"
         onChange={e => setTask(e.target.value)}
-        style={{ padding: '5px', width: '70%' }}
       />
-      <button
-        onClick={handleAddOrEdit}
-        style={{ marginLeft: '10px', padding: '5px 10px' }}
-      >
+      <button onClick={handleAddOrEdit}>
         {editingIndex !== null ? "Update Task" : "Add Task"}
       </button>
 
-      <ul style={{ listStyle: 'none', padding: 0, marginTop: '20px' }}>
+      <ul>
         {tasks.map((t, index) => (
-          <li key={index} style={{ marginBottom: '10px' }}>
-            {t} {" "}
-            <button onClick={() => handleEdit(index)}>Edit</button>{" "}
-            <button onClick={() => handleDelete(index)}>Delete</button>
+          <li key={index}>
+            <span>{t}</span>
+            <div>
+              <button onClick={() => handleEdit(index)}>Edit</button>
+              <button onClick={() => handleDelete(index)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
 
-      <BackBtn label="Back" onClick={goBack} />
+      <div style={{ marginTop: "20px" }}>
+        <button className="back-btn" onClick={goBack}>Back</button>
+      </div>
     </div>
   );
 }
